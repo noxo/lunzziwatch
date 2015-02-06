@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LunzziWatch</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="configuration_text">configuration_text</string>
+	<string name="extension_name">LunzziWatch</string>
+	<string name="title_favorite_list">Select favorite restaurants</string>
+	<string name="loading_restaurant_list">Loading restaurant list</string>
+	<string name="restaurant_list">Restaurant list</string>
+	<string name="menu">Menu</string>
+	<string name="category">Option</string>
+	<string name="error">Error</string>
+	<string name="loading">Loading..</string>
+</resources>

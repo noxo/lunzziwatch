@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LunzziWatch</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Asetukset</string>
+    <string name="configuration_text">configuration_text</string>
+	<string name="extension_name">LunzziWatch</string>
+	<string name="title_favorite_list">Valitse suosikki ravintolat</string>
+	<string name="loading_restaurant_list">Ladataan ravintolalistaa</string>
+	<string name="restaurant_list">Ravintolalista</string>
+	<string name="menu">Menu</string>
+	<string name="category">Vaihtoehto</string>
+	<string name="error">Virhe</string>
+	<string name="loading">Ladataan..</string>
+</resources>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="@dimen/smart_watch_2_control_width"
+    android:layout_height="@dimen/smart_watch_2_control_height"
+    tools:ignore="PxUsage,UselessParent,HardcodedText"
+    android:background="@color/darker_gray" >
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="fill_parent"
+        android:layout_height="28px"
+        android:layout_alignParentTop="true"
+        android:background="#ff642f" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="6px"
+            android:text="@string/restaurant_list"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/smart_watch_2_text_size_medium"
+            android:textStyle="bold"
+             />
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/header">
+    </ListView>
+
+</RelativeLayout>
