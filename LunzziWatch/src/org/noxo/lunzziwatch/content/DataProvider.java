@@ -11,15 +11,15 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 
 public class DataProvider extends ContentProvider {
-	
+
 	final static String TAG = DataProvider.class.getSimpleName();
-	
+
 	public static final Uri CONTENT_URI = Uri.parse("content://org.noxo.lunzziwatch");
 	public static final String MIME_TYPE_ROWS = "vnd.android.cursor.dir/org.noxo.lunzziwatch";
-	
+
 	final static String DB_NAME = "Favorites";
 	final static int DB_VERSION = 1;
-	
+
 	final static String SQL_CREATE_TABLE_FAVORITE = "create table " + Restaurant.TABLE_NAME
 			+ "("
 			+ Restaurant.Columns._ID + " INTEGER PRIMARY KEY,"
@@ -27,9 +27,9 @@ public class DataProvider extends ContentProvider {
 			+ Restaurant.Columns.URL + " TEXT,"
 			+ Restaurant.Columns.FAVORITED + " SHORT"
 			+ ")";
-	
+
 	private DbHelper dbHelper;
-	
+
 	private class DbHelper extends SQLiteOpenHelper
 	{
 
@@ -46,14 +46,14 @@ public class DataProvider extends ContentProvider {
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 			onUpgrade(db, oldVersion, newVersion);
 		}
-		
+
 	}
-	
-	
+
+
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		
+
 	}
-	
+
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
 		return 0;

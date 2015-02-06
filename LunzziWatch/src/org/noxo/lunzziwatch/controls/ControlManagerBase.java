@@ -45,141 +45,141 @@ import com.sonyericsson.extras.liveware.extension.util.control.ControlTouchEvent
  * the running control. This base class only handles API level 1 methods.
  */
 public class ControlManagerBase extends ControlExtension {
-	
+
 	final String TAG = ControlManagerBase.class.getSimpleName();
-	
-    protected ControlExtension mCurrentControl = null;
 
-    private static final int STATE_IDLE = 0;
+	protected ControlExtension mCurrentControl = null;
 
-    protected static final int STATE_STARTED = 1;
+	private static final int STATE_IDLE = 0;
 
-    protected static final int STATE_FOREGROUND = 2;
+	protected static final int STATE_STARTED = 1;
 
-    protected int mControlState = STATE_IDLE;
+	protected static final int STATE_FOREGROUND = 2;
 
-    /**
-     * Create phone control manager.
-     *
-     * @param context The context to use.
-     * @param packageName The package name of the host application.
-     */
-    public ControlManagerBase(final Context context, final String packageName) {
-        super(context, packageName);
-        Log.d(TAG, "created");
+	protected int mControlState = STATE_IDLE;
 
-    }
+	/**
+	 * Create phone control manager.
+	 *
+	 * @param context The context to use.
+	 * @param packageName The package name of the host application.
+	 */
+	public ControlManagerBase(final Context context, final String packageName) {
+		super(context, packageName);
+		Log.d(TAG, "created");
 
-    @Override
-    public void onDestroy() {
-        Log.d(TAG, "ControlManager onDestroy");
-        if (mCurrentControl != null) {
-            mCurrentControl.onDestroy();
-        }
-    }
+	}
 
-    @Override
-    public void onStart() {
-        Log.d(TAG, "onStart");
-        mControlState = STATE_STARTED;
-        if (mCurrentControl != null) {
-            mCurrentControl.onStart();
-        }
-    }
+	@Override
+	public void onDestroy() {
+		Log.d(TAG, "ControlManager onDestroy");
+		if (mCurrentControl != null) {
+			mCurrentControl.onDestroy();
+		}
+	}
 
-    @Override
-    public void onStop() {
-        Log.d(TAG, "onStop");
-        mControlState = STATE_IDLE;
-        if (mCurrentControl != null) {
-            mCurrentControl.onStop();
-        }
-    }
+	@Override
+	public void onStart() {
+		Log.d(TAG, "onStart");
+		mControlState = STATE_STARTED;
+		if (mCurrentControl != null) {
+			mCurrentControl.onStart();
+		}
+	}
 
-    @Override
-    public void onPause() {
-        Log.d(TAG, "onPause");
-        mControlState = STATE_STARTED;
-        if (mCurrentControl != null) {
-            mCurrentControl.onPause();
-        }
-    }
+	@Override
+	public void onStop() {
+		Log.d(TAG, "onStop");
+		mControlState = STATE_IDLE;
+		if (mCurrentControl != null) {
+			mCurrentControl.onStop();
+		}
+	}
 
-    @Override
-    public void onResume() {
-        Log.d(TAG, "onResume");
-        mControlState = STATE_FOREGROUND;
-        if (mCurrentControl != null) {
-            mCurrentControl.onResume();
-        }
-    }
+	@Override
+	public void onPause() {
+		Log.d(TAG, "onPause");
+		mControlState = STATE_STARTED;
+		if (mCurrentControl != null) {
+			mCurrentControl.onPause();
+		}
+	}
 
-    @Override
-    public void onTouch(final ControlTouchEvent event) {
-        Log.d(TAG, "onTouch");
-        if (mCurrentControl != null) {
-            mCurrentControl.onTouch(event);
-        }
-    }
+	@Override
+	public void onResume() {
+		Log.d(TAG, "onResume");
+		mControlState = STATE_FOREGROUND;
+		if (mCurrentControl != null) {
+			mCurrentControl.onResume();
+		}
+	}
 
-    @Override
-    public void onDoAction(int requestCode, Bundle bundle) {
-        Log.d(TAG, "onDoAction");
-        if (mCurrentControl != null) {
-            mCurrentControl.onDoAction(requestCode, bundle);
-        }
-    }
+	@Override
+	public void onTouch(final ControlTouchEvent event) {
+		Log.d(TAG, "onTouch");
+		if (mCurrentControl != null) {
+			mCurrentControl.onTouch(event);
+		}
+	}
 
-    @Override
-    public void onError(int code) {
-        Log.d(TAG, "onError");
-        if (mCurrentControl != null) {
-            mCurrentControl.onError(code);
-        }
-    }
+	@Override
+	public void onDoAction(int requestCode, Bundle bundle) {
+		Log.d(TAG, "onDoAction");
+		if (mCurrentControl != null) {
+			mCurrentControl.onDoAction(requestCode, bundle);
+		}
+	}
 
-    @Override
-    public void onKey(int action, int keyCode, long timeStamp) {
-        Log.d(TAG, "onKey");
-        if (mCurrentControl != null) {
-            mCurrentControl.onKey(action, keyCode, timeStamp);
-        }
-    }
+	@Override
+	public void onError(int code) {
+		Log.d(TAG, "onError");
+		if (mCurrentControl != null) {
+			mCurrentControl.onError(code);
+		}
+	}
 
-    /**
-     * Start a new control. Any currently running control will be stopped.
-     *
-     * @param newControlId The control to start.
-     */
-    protected void startControl(final ControlExtension newControl) {
+	@Override
+	public void onKey(int action, int keyCode, long timeStamp) {
+		Log.d(TAG, "onKey");
+		if (mCurrentControl != null) {
+			mCurrentControl.onKey(action, keyCode, timeStamp);
+		}
+	}
 
-        Log.d(TAG, "ControlManager startControl");
-        
-        if (newControl != null) {
-            // Stop the current control
-            int savedState = mControlState;
-            closeCurrentControl();
-            mCurrentControl = newControl;
-            // Start and resume the new control
-            if (mCurrentControl != null) {
-                onStart();
-                if (savedState == STATE_FOREGROUND) {
-                    onResume();
-                }
-            }
-        }
-    }
+	/**
+	 * Start a new control. Any currently running control will be stopped.
+	 *
+	 * @param newControlId The control to start.
+	 */
+	protected void startControl(final ControlExtension newControl) {
 
-    protected void closeCurrentControl() {
-        if (mCurrentControl != null) {
-        	
-            if (mControlState == STATE_FOREGROUND) {
-                onPause();
-            }
-            if (mControlState == STATE_STARTED) {
-                onStop();
-            }
-            mCurrentControl.onDestroy();
-        }
-    }
+		Log.d(TAG, "ControlManager startControl");
+
+		if (newControl != null) {
+			// Stop the current control
+			int savedState = mControlState;
+			closeCurrentControl();
+			mCurrentControl = newControl;
+			// Start and resume the new control
+			if (mCurrentControl != null) {
+				onStart();
+				if (savedState == STATE_FOREGROUND) {
+					onResume();
+				}
+			}
+		}
+	}
+
+	protected void closeCurrentControl() {
+		if (mCurrentControl != null) {
+
+			if (mControlState == STATE_FOREGROUND) {
+				onPause();
+			}
+			if (mControlState == STATE_STARTED) {
+				onStop();
+			}
+			mCurrentControl.onDestroy();
+		}
+	}
 }

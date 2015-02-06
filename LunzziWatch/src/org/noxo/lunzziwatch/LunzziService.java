@@ -10,13 +10,13 @@ import com.sonyericsson.extras.liveware.extension.util.registration.DeviceInfoHe
 import com.sonyericsson.extras.liveware.extension.util.registration.RegistrationInformation;
 
 public class LunzziService extends ExtensionService {
-	
+
 	final String TAG = LunzziService.class.getSimpleName();
-	
-	 public LunzziService() {
-		 super();
-	 }
-	 
+
+	public LunzziService() {
+		super();
+	}
+
 	@Override
 	protected RegistrationInformation getRegistrationInformation() {
 		return new LunzziRegistrationInformation(getApplicationContext());
@@ -28,22 +28,22 @@ public class LunzziService extends ExtensionService {
 		return false;
 	}
 
-    @Override
-    public ControlExtension createControlExtension(String hostAppPackageName) {
-        
-    	Log.d(TAG, "Service: createControlExtension");
-        boolean advancedFeaturesSupported = DeviceInfoHelper.isSmartWatch2ApiAndScreenDetected(
-                this, hostAppPackageName);
-        
-        if (advancedFeaturesSupported) {
-            Log.d(TAG,
-                    "Service: Advanced features supported, returning SmartWatch2 extension control manager");
-            return new ControlManagerSmartWatch2(this, hostAppPackageName);
-        } else {
-            Log.d(TAG,
-                    "Service: Advanced features not supported, exiting");
-            throw new IllegalArgumentException("No control for: " + hostAppPackageName);
-        }
-        
-    }
+	@Override
+	public ControlExtension createControlExtension(String hostAppPackageName) {
+
+		Log.d(TAG, "Service: createControlExtension");
+		boolean advancedFeaturesSupported = DeviceInfoHelper.isSmartWatch2ApiAndScreenDetected(
+				this, hostAppPackageName);
+
+		if (advancedFeaturesSupported) {
+			Log.d(TAG,
+					"Service: Advanced features supported, returning SmartWatch2 extension control manager");
+			return new ControlManagerSmartWatch2(this, hostAppPackageName);
+		} else {
+			Log.d(TAG,
+					"Service: Advanced features not supported, exiting");
+			throw new IllegalArgumentException("No control for: " + hostAppPackageName);
+		}
+
+	}
 }

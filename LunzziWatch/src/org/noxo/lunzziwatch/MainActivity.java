@@ -23,23 +23,23 @@ import android.widget.ListView;
 public class MainActivity extends FragmentActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
 	final String TAG = MainActivity.class.getSimpleName();
-	
+
 	AsyncTask<Void, Void, Void> restaurantImportTask;
 	ProgressDialog progressDialog;
 	ListView restaurantListView;
 	RestaurantAdapter adapter;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
-		
+
 		Log.d(TAG, "onCreate");
-		
+
 		setContentView(R.layout.activity_main);
 
 		restaurantListView = (ListView) findViewById(R.id.restaurantList);
-		
+
 		adapter = new RestaurantAdapter(this);
 		restaurantListView.setAdapter(adapter);
 
@@ -49,35 +49,35 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
 			protected void onPreExecute() {
 				progressDialog = ProgressDialog.show(MainActivity.this, "", MainActivity.this.getText(R.string.loading_restaurant_list));
 			}
-			
+
 			@Override
 			protected Void doInBackground(Void... params) {
 				RestaurantImporter.importMbnet(MainActivity.this);
 				return null;
 			}
-			
+
 			@Override
 			protected void onPostExecute(Void result) {
 				progressDialog.hide();
 				loadRestaurantsFromDb();
 			}
 		};
-		
+
 		restaurantImportTask.execute();
 	}
-	
+
 	public void loadRestaurantsFromDb()
 	{
 		Log.d(TAG, "loadRestaurantsFromDb");
 		getSupportLoaderManager().initLoader(0, null, this);
 	}
-	
+
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		Log.d(TAG, "onConfigurationChanged");
 		super.onConfigurationChanged(newConfig);
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -104,16 +104,16 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> arg0, Cursor cursor) {
-		
+
 		Log.d(TAG, "load finished");
 		List<Restaurant> restaurants = new ArrayList<Restaurant>();
-		
+
 		while (cursor.moveToNext())
 		{
 			Restaurant r = Restaurant.fromCursor(cursor);
 			restaurants.add(r);
 		}
-		
+
 		adapter.setRestaurants(restaurants);
 	}
 
